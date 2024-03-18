@@ -70,7 +70,7 @@ object ChangeTogglePatch : BytecodePatch(
     )
 ) {
     override fun execute(context: BytecodeContext) {
-        if (SettingsPatch.upward1841) throw PatchException("This version is not supported. Please use YouTube 19.05.36 or earlier.")
+        if (SettingsPatch.upward1905) throw PatchException("This version is not supported. Please use YouTube 19.05.36 or earlier.")
 
         val additionalSettingsConfigResult = AdditionalSettingsConfigFingerprint.result
             ?: throw AdditionalSettingsConfigFingerprint.exception
