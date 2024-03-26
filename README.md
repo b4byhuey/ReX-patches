@@ -77,6 +77,7 @@ ReX Patches.
 | `Hide feed flyout panel` | Adds the ability to hide feed flyout panel components using a custom filter. | 18.25.40 ~ 19.07.40 |
 | `Hide filmstrip overlay` | Adds an option to hide filmstrip overlay in the video player. | 18.25.40 ~ 19.07.40 |
 | `Hide floating microphone` | Adds an option to hide the floating microphone button when searching. | 18.25.40 ~ 19.07.40 |
+| `Hide fullscreen button` | Force to hide fullscreen button in player bottom UI container. | 18.25.40 ~ 19.07.40 |
 | `Hide fullscreen panels` | Adds an option to hide panels such as live chat when in fullscreen. | 18.25.40 ~ 19.07.40 |
 | `Hide general ads` | Adds options to hide general ads. | 18.25.40 ~ 19.07.40 |
 | `Hide handle` | Adds options to hide the handle in the account switcher and You tab. | 18.25.40 ~ 19.07.40 |
@@ -89,6 +90,7 @@ ReX Patches.
 | `Hide navigation buttons` | Adds options to hide and change navigation buttons (such as the Shorts button). | 18.25.40 ~ 19.07.40 |
 | `Hide navigation label` | Adds an option to hide navigation bar labels. | 18.25.40 ~ 19.07.40 |
 | `Hide player button background` | Hides the dark background surrounding the video player controls. | 18.25.40 ~ 19.07.40 |
+| `Hide player chapters` | Forces to hides chapters in player bottom UI container. | 18.25.40 ~ 19.07.40 |
 | `Hide player flyout panel` | Adds options to hide player flyout panel components. | 18.25.40 ~ 19.07.40 |
 | `Hide previous next button` | Adds an option to hide the previous and next buttons in the video player. | 18.25.40 ~ 19.07.40 |
 | `Hide search term thumbnail` | Adds an option to hide thumbnails in the search term history. | 18.25.40 ~ 19.07.40 |
