@@ -35,8 +35,10 @@ jobs:
         uses: burrunan/gradle-cache-action@v1
 
       - name: Build with Gradle
-        run: ./gradlew generateMeta clean
-
+        uses: gradle/gradle-build-action@v2.11.0
+        with:
+          arguments: build generateMeta clean
+          
       - name: Setup semantic-release
         run: npm install
 
