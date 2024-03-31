@@ -116,7 +116,7 @@ object CustomBrandingIconPatch : ResourcePatch() {
 
     override fun execute(context: ResourceContext) {
         AppIcon?.let { appIcon ->
-            val appIconValue = appIcon.lowercase().replace(" ","_")
+            val appIconValue = appIcon.lowercase().replace(" ", "_")
             if (!availableIcon.containsValue(appIconValue)) {
                 mipmapDirectories.map { directory ->
                     ResourceGroup(
@@ -157,14 +157,30 @@ object CustomBrandingIconPatch : ResourcePatch() {
                     }
                 }
 
-                // change splash icon.
-                drawableDirectories.map { directory ->
-                    ResourceGroup(
-                        directory, *drawableIconResourceFileNames
-                    )
-                }.let { resourceGroups ->
-                    resourceGroups.forEach {
-                        context.copyResources("$resourcePath/splash", it)
+                val drawableAnimResourceFileNames = Array(5) { index -> "\$avd_anim__$index.xml" }
+
+                if (appIconValue == "mmt") {
+                    (arrayOf(
+                        ResourceGroup("drawable", "avd_anim.xml", *drawableAnimResourceFileNames)
+                    ) + drawableDirectories.map { ResourceGroup(it, *drawableIconResourceFileNames) })
+                        .forEach { context.copyResources("$resourcePath/splash", it) }
+                } else {
+                    drawableDirectories.map { directory ->
+                        ResourceGroup(
+                            directory, *drawableIconResourceFileNames
+                        )
+                    }.let { resourceGroups ->
+                        resourceGroups.forEach {
+                            context.copyResources("$resourcePath/splash", it)
+                        }
+                    }
+
+                    // disable splash animation.
+                    context.xmlEditor["res/values-v31/styles.xml"].use { editor ->
+                        val tags = editor.file.getElementsByTagName("item")
+                        List(tags.length) { tags.item(it) as Element }
+                            .filter { it.getAttribute("name").contains("android:windowSplashScreenAnimatedIcon") }
+                            .forEach { it.parentNode.removeChild(it) }
                     }
                 }
 
@@ -176,14 +192,6 @@ object CustomBrandingIconPatch : ResourcePatch() {
                     )
                 ).forEach { resourceGroup ->
                     context.copyResources("$resourcePath/monochrome", resourceGroup)
-                }
-
-                // disable splash animation.
-                context.xmlEditor["res/values-v31/styles.xml"].use { editor ->
-                    val tags = editor.file.getElementsByTagName("item")
-                    List(tags.length) { tags.item(it) as Element }
-                        .filter { it.getAttribute("name").contains("android:windowSplashScreenAnimatedIcon") }
-                        .forEach { it.parentNode.removeChild(it) }
                 }
 
                 context.updatePatchStatusIcon(appIconValue)
