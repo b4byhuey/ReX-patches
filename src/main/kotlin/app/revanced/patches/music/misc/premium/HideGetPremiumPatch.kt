@@ -4,6 +4,7 @@ import app.revanced.patcher.data.BytecodeContext
 import app.revanced.patcher.extensions.InstructionExtensions.addInstruction
 import app.revanced.patcher.extensions.InstructionExtensions.addInstructions
 import app.revanced.patcher.extensions.InstructionExtensions.getInstruction
+import app.revanced.patcher.extensions.InstructionExtensions.replaceInstruction
 import app.revanced.patcher.patch.BytecodePatch
 import app.revanced.patcher.patch.annotation.CompatiblePackage
 import app.revanced.patcher.patch.annotation.Patch
@@ -19,7 +20,7 @@ import app.revanced.util.getWideLiteralInstructionIndex
 import com.android.tools.smali.dexlib2.Opcode
 import com.android.tools.smali.dexlib2.iface.instruction.OneRegisterInstruction
 import com.android.tools.smali.dexlib2.iface.instruction.ReferenceInstruction
-import com.android.tools.smali.dexlib2.iface.instruction.TwoRegisterInstruction
+import com.android.tools.smali.dexlib2.iface.instruction.FiveRegisterInstruction
 import com.android.tools.smali.dexlib2.iface.reference.Reference
 
 @Patch(
@@ -40,16 +41,24 @@ object HideGetPremiumPatch : BytecodePatch(
 
         HideGetPremiumFingerprint.result?.let {
             it.mutableMethod.apply {
-                val insertIndex = it.scanResult.patternScanResult!!.startIndex
-                val register = getInstruction<TwoRegisterInstruction>(insertIndex).registerA
+                val insertIndex = it.scanResult.patternScanResult!!.endIndex
+
+                val setVisibilityInstruction = getInstruction<FiveRegisterInstruction>(insertIndex)
+                val getPremiumViewRegister = setVisibilityInstruction.registerC
+                val visibilityRegister = setVisibilityInstruction.registerD
+
+                replaceInstruction(
+                    insertIndex,
+                    "const/16 v$visibilityRegister, 0x8",
+                )
 
                 addInstruction(
                     insertIndex + 1,
-                    "const/4 v$register, 0x0"
+                    "invoke-virtual {v$getPremiumViewRegister, v$visibilityRegister}, " +
+                        "Landroid/view/View;->setVisibility(I)V",
                 )
             }
         } ?: throw HideGetPremiumFingerprint.exception
-
 
         AccountMenuFooterFingerprint.result?.let {
             it.mutableMethod.apply {
