@@ -10,8 +10,6 @@ object VideoLengthFingerprint : MethodFingerprint(
         Opcode.INVOKE_VIRTUAL,
         Opcode.MOVE_RESULT_WIDE,
         Opcode.INVOKE_VIRTUAL,
-        Opcode.MOVE_RESULT_WIDE,
-        Opcode.INVOKE_VIRTUAL,
-        Opcode.MOVE_RESULT
+        Opcode.MOVE_RESULT_WIDE
     )
 )
